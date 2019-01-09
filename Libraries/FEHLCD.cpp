@@ -458,7 +458,7 @@ FEHLCD::FEHLCD()
 
     _maxlines = 14;
     _maxcols = 26;
-    
+
     _currentline = 0;
     _currentchar = 0;
 
@@ -771,6 +771,133 @@ bool FEHLCD::Touch(float *x_pos, float *y_pos)
 
 
 
+}
+
+void FEHLCD::TouchCalibrate()
+{
+    Clear(Black);
+	
+	float dx, dy;
+
+    float top_right_x, top_right_y;
+    float top_left_x, top_left_y;
+    float bottom_right_x, bottom_right_y;
+    float bottom_left_x, bottom_left_y;
+	float middle_x, middle_y;
+
+    SetFontColor(Scarlet);
+    WriteRC("Press the circle.", 3, 5);
+
+    DrawCircle(11, 11, 10);
+	
+	Sleep(200);
+
+    while (true) {
+		if (Touch(&top_left_x, &top_left_y)) {
+			break;
+		}
+	}
+
+    Clear(Black);
+    DrawCircle(320 - 11, 11, 10);
+    WriteRC("Press the circle.", 3, 5);
+	
+	Sleep(200);
+
+    while (true) {
+		if (Touch(&top_right_x, &top_right_y)) {
+			break;
+		}
+	}
+
+    Clear(Black);
+    DrawCircle(11, 240 - 12, 10);
+    WriteRC("Press the circle.", 3, 5);
+	
+	Sleep(200);
+
+    while (true) {
+		if (Touch(&bottom_left_x, &bottom_left_y)) {
+			break;
+		}
+	}
+
+    Clear(Black);
+    DrawCircle(320 - 11, 240 - 12, 10);
+    WriteRC("Press the circle.", 3, 5);
+	
+	Sleep(200);
+
+    while (true) {
+		if (Touch(&bottom_right_x, &bottom_right_y)) {
+			break;
+		}
+	}
+	
+	Clear(Black);
+    DrawCircle(319/2, 239/2, 10);
+    WriteRC("Press the circle.", 3, 5);
+	
+	Sleep(200);
+
+    while (true) {
+		if (Touch(&middle_x, &middle_y)) {
+			break;
+		}
+	}
+	
+	Clear(Black);
+	SetFontColor(White);
+	DrawRectangle(116, 0, 320-117, 240/5);
+	DrawRectangle(116, (240/5)*1, 320-117, 240/5);
+	DrawRectangle(116, (240/5)*2, 320-117, 240/5);
+	DrawRectangle(116, (240/5)*3, 320-117, 240/5);
+	DrawRectangle(116, (240/5)*4, 320-117, (240/5)-2);
+	DrawRectangle(1, 0, 115, 238);
+	
+	SetFontColor(Scarlet);
+	
+	WriteAt("TL", 122, 19);
+	WriteAt("X:", 200, 10);
+	WriteAt("Y:", 200, 28);
+	WriteAt(top_left_x, 230, 10);
+	WriteAt(top_left_y, 230, 28);
+	
+	WriteAt("TR", 122, 19+(240/5)*1);
+	WriteAt("X:", 200, 10+(240/5)*1);
+	WriteAt("Y:", 200, 28+(240/5)*1);
+	WriteAt(top_right_x, 230, 10+(240/5)*1);
+	WriteAt(top_right_y, 230, 28+(240/5)*1);
+	
+	WriteAt("BL", 122, 19+(240/5)*2);
+	WriteAt("X:", 200, 10+(240/5)*2);
+	WriteAt("Y:", 200, 28+(240/5)*2);
+	WriteAt(bottom_left_x, 230, 10+(240/5)*2);
+	WriteAt(bottom_left_y, 230, 28+(240/5)*2);
+	
+	WriteAt("BR", 122, 19+(240/5)*3);
+	WriteAt("X:", 200, 10+(240/5)*3);
+	WriteAt("Y:", 200, 28+(240/5)*3);
+	WriteAt(bottom_right_x, 230, 10+(240/5)*3);
+	WriteAt(bottom_right_y, 230, 28+(240/5)*3);
+	
+	WriteAt("Middle", 122, 19+(240/5)*4);
+	WriteAt("X:", 200, 10+(240/5)*4);
+	WriteAt("Y:", 200, 28+(240/5)*4);
+	WriteAt(middle_x, 230, 10+(240/5)*4);
+	WriteAt(middle_y, 230, 28+(240/5)*4);
+	
+	WriteAt("Exit", 35, 19+(240/5)*2);
+	
+	while (true) {
+		if (Touch(&dx, &dy)) {
+			if (dx < 116) {
+				break;
+			}
+		}
+	}
+	
+	Clear(Black);
 }
 
 int FEHLCD::abs(int no)
