@@ -146,34 +146,59 @@ private:
     static unsigned char fontData[];
 };
 
+namespace FEHRouter
+{
+    /* Class definition for software icons */
+    class Route
+    {
+        private:
+            int x_start, x_end;
+            int y_start, y_end;
+            int width;
+            int height;
+            unsigned int color;
+            unsigned int textcolor;
+            char label[200];
+            int set;
+        public:
+            void open();
+    };
+
+    class Router {
+        private:
+            Route routes;
+        public:
+            void addRoutes();
+    };
+}
+
 namespace FEHIcon
 {
-	/* Class definition for software icons */
-	class Icon
-	{
-		private:
-			int x_start, x_end;
-			int y_start, y_end;
-			int width;
-			int height;
-			unsigned int color;
-			unsigned int textcolor;
-			char label[200];
-			int set;
-		public:
-			Icon();
-			void SetProperties(char name[20], int start_x, int start_y, int w, int h, unsigned int c, unsigned int tc);
-			void Draw();
-			void Select();
-			void Deselect();
-			int Pressed(float x, float y, int mode);
-			int WhilePressed(float xi, float yi);
-            void ChangeLabelString(const char new_label[20]);
-            void ChangeLabelFloat(float val);
-            void ChangeLabelInt(int val);
+    /* Class definition for software icons */
+    class Icon
+    {
+        private:
+            int x_start, y_start;
+            int width, height;
+            unsigned int bg_color;
+            unsigned int txt_color;
+            char label[200];
+            int selected;
+        public:
+            Icon();
+            FEHIcon::Icon& SetName(char name[20]);
+            FEHIcon::Icon& SetStart(int start_x, int start_y);
+            FEHIcon::Icon& SetDimensions(int w, int h);
+            FEHIcon::Icon& SetColors(unsigned int background_color, unsigned int text_color);
+            void Draw();
+            void Select();
+            void Deselect();
+            int Pressed(float x, float y, int mode);
+            int WhilePressed(float xi, float yi);
+            void ChangeLabel(const char new_label[20]);
     };
 		
-	/* Function prototype for drawing an array of icons in a rows by cols array with top, bot, left, and right margins from edges of screen, labels for each icon from top left across each row to the bottom right, and color for the rectangle and the text color */
+    /* Function prototype for drawing an array of icons in a rows by cols array with top, bot, left, and right margins from edges of screen, labels for each icon from top left across each row to the bottom right, and color for the rectangle and the text color */
     void DrawIconArray(Icon icon[], int rows, int cols, int top, int bot, int left, int right, char labels[][20], unsigned int col, unsigned int txtcol);
 }
 
