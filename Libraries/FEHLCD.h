@@ -172,10 +172,10 @@ namespace FEHRouter
     };
 }
 
-namespace FEHIcon
+namespace FEHMenu
 {
     /* Class definition for software icons */
-    class Icon
+    class Button
     {
         private:
             int x_start, y_start;
@@ -185,21 +185,31 @@ namespace FEHIcon
             char label[200];
             int selected;
         public:
-            Icon();
-            FEHIcon::Icon& SetName(char name[20]);
-            FEHIcon::Icon& SetStart(int start_x, int start_y);
-            FEHIcon::Icon& SetDimensions(int w, int h);
-            FEHIcon::Icon& SetColors(unsigned int background_color, unsigned int text_color);
+            Button();
+            FEHMenu::Button& SetName(char name[20]);
+            FEHMenu::Button& SetStart(int start_x, int start_y);
+            FEHMenu::Button& SetDimensions(int w, int h);
+            FEHMenu::Button& SetColors(unsigned int background_color, unsigned int text_color);
             void Draw();
             void Select();
             void Deselect();
+            bool Contains(float x, float y);
             int Pressed(float x, float y, int mode);
-            int WhilePressed(float xi, float yi);
+            int AwaitPress(float xi, float yi);
             void ChangeLabel(const char new_label[20]);
+    };
+    class Menu
+    {
+        private:
+            int rows, cols;
+            FEHMenu::Button buttons[];
+        public:
+            Menu(Button button[], int row_length, int col_length, int top, int bottom, int left, int right, char labels[][20], unsigned int background_color, unsigned int text_color);
+            int AwaitPress();
+            void Draw();
     };
 		
     /* Function prototype for drawing an array of icons in a rows by cols array with top, bot, left, and right margins from edges of screen, labels for each icon from top left across each row to the bottom right, and color for the rectangle and the text color */
-    void DrawIconArray(Icon icon[], int rows, int cols, int top, int bot, int left, int right, char labels[][20], unsigned int col, unsigned int txtcol);
 }
 
 extern FEHLCD LCD;
