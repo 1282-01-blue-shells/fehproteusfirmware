@@ -174,7 +174,7 @@ namespace FEHRouter
 
 namespace FEHMenu
 {
-    /* Class definition for software icons */
+    /* Class definition for software buttons */
     class Button
     {
         private:
@@ -183,7 +183,7 @@ namespace FEHMenu
             unsigned int bg_color;
             unsigned int txt_color;
             char label[200];
-            int selected;
+            bool selected;
         public:
             Button();
             FEHMenu::Button& SetName(char name[20]);
@@ -193,23 +193,30 @@ namespace FEHMenu
             void Draw();
             void Select();
             void Deselect();
+            bool IsSelected();
             bool Contains(float x, float y);
-            int Pressed(float x, float y, int mode);
-            int AwaitPress(float xi, float yi);
-            void ChangeLabel(const char new_label[20]);
+            bool IsPressed();
+            void AwaitTouchUp(bool alternate = false);
+            void OnTouchUp(void (*callback)(), bool alternate = false);
     };
+
+    /* Class definition that stores menu information */
     class Menu
     {
-        private:
-            int rows, cols;
-            FEHMenu::Button buttons[];
+        int rows, cols;
+        FEHMenu::Button buttons[];
+
         public:
-            Menu(Button button[], int row_length, int col_length, int top, int bottom, int left, int right, char labels[][20], unsigned int background_color, unsigned int text_color);
-            int AwaitPress();
+            /* Class must be initialized with:
+             * - Array of buttons (row*col in length)
+             * - # rows, # cols
+             * - Button labels, from top left across each row to the bottom right
+             * - (Optional) Top, bottom, left, and right margins from edges of screen,
+             * - (Optional) Color for the rectangle and the text color */
+            Menu(Button button[], int row_length, int col_length, char labels[][20], int top = 0, int bottom = 0, int left = 0, int right = 0, unsigned int background_color = 0x000000, unsigned int text_color = 0xffffff);
+            int AwaitPress(bool alternate = false);
             void Draw();
     };
-		
-    /* Function prototype for drawing an array of icons in a rows by cols array with top, bot, left, and right margins from edges of screen, labels for each icon from top left across each row to the bottom right, and color for the rectangle and the text color */
 }
 
 extern FEHLCD LCD;
