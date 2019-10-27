@@ -146,32 +146,6 @@ private:
     static unsigned char fontData[];
 };
 
-namespace FEHRouter
-{
-    /* Class definition for software icons */
-    class Route
-    {
-        private:
-            int x_start, x_end;
-            int y_start, y_end;
-            int width;
-            int height;
-            unsigned int color;
-            unsigned int textcolor;
-            char label[200];
-            int set;
-        public:
-            void open();
-    };
-
-    class Router {
-        private:
-            Route routes;
-        public:
-            void addRoutes();
-    };
-}
-
 namespace FEHMenu
 {
     /* Class definition for software buttons */
@@ -180,7 +154,7 @@ namespace FEHMenu
         private:
             int x_start, y_start;
             int width, height;
-            unsigned int bg_color;
+            unsigned int line_color;
             unsigned int txt_color;
             char label[200];
             bool selected;
@@ -189,7 +163,7 @@ namespace FEHMenu
             FEHMenu::Button& SetName(char name[20]);
             FEHMenu::Button& SetStart(int start_x, int start_y);
             FEHMenu::Button& SetDimensions(int w, int h);
-            FEHMenu::Button& SetColors(unsigned int background_color, unsigned int text_color);
+            FEHMenu::Button& SetColors(unsigned int border_color, unsigned int text_color);
             void Draw();
             void Select();
             void Deselect();
@@ -213,7 +187,7 @@ namespace FEHMenu
              * - Button labels, from top left across each row to the bottom right
              * - (Optional) Top, bottom, left, and right margins from edges of screen,
              * - (Optional) Color for the rectangle and the text color */
-            Menu(Button button[], int row_length, int col_length, char labels[][20], int top = 0, int bottom = 0, int left = 0, int right = 0, unsigned int background_color = 0x000000, unsigned int text_color = 0xffffff);
+            Menu(Button button[], int row_length, int col_length, char labels[][20], int top = 0, int bottom = 0, int left = 0, int right = 0, unsigned int border_color = 0xFFFFFFu, unsigned int text_color = 0xFFFFFFu);
             int AwaitPress(bool alternate = false);
             void Draw();
     };

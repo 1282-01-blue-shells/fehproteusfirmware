@@ -1683,8 +1683,8 @@ FEHMenu::Button::Button() {
     y_start = 0;
     width = 100;
     height = 100;
-    bg_color = 0x000000;
-    txt_color = 0xffffff;
+    line_color = 0xFFFFFFu;
+    txt_color = 0xFFFFFFu;
     selected = false;
 }
 
@@ -1712,9 +1712,9 @@ FEHMenu::Button& FEHMenu::Button::SetDimensions(int w, int h)
 }
 
 /* Chainable Button function to set colors */
-FEHMenu::Button& FEHMenu::Button::SetColors(unsigned int background_color, unsigned int text_color)
+FEHMenu::Button& FEHMenu::Button::SetColors(unsigned int border_color, unsigned int text_color)
 {
-    bg_color = background_color;
+    line_color = border_color;
     txt_color = text_color;
     return *this;
 }
@@ -1722,7 +1722,7 @@ FEHMenu::Button& FEHMenu::Button::SetColors(unsigned int background_color, unsig
 /* Button function to draw it and write label */
 void FEHMenu::Button::Draw()
 {
-    LCD.SetFontColor(bg_color);
+    LCD.SetFontColor(line_color);
     LCD.DrawRectangle(x_start, y_start, width, height);
     LCD.SetFontColor(txt_color);
     LCD.WriteAt(label,x_start+((width-(strlen(label)*12))/2),y_start+((height-17)/2)); // equation to center text inside the icon
@@ -1733,7 +1733,7 @@ void FEHMenu::Button::Draw()
 void FEHMenu::Button::Select()
 {
     selected = true;
-    LCD.SetFontColor(bg_color);
+    LCD.SetFontColor(line_color);
     for (int i = 1; i <= 3; i++) LCD.DrawRectangle(x_start + i, y_start + i, width - 2*i, height - 2*i);
 }
 
@@ -1797,7 +1797,7 @@ void FEHMenu::Button::AwaitTouchUp(bool alternate)
 }
 
 /* Initializes an array of buttons of a given space and size, labels them, and draws them */
-FEHMenu::Menu::Menu(Button button[], int row_length, int col_length, char labels[][20], int top, int bottom, int left, int right, unsigned int background_color, unsigned int text_color)
+FEHMenu::Menu::Menu(Button button[], int row_length, int col_length, char labels[][20], int top, int bottom, int left, int right, unsigned int border_color, unsigned int text_color)
 {
     *buttons = *button;
     cols = col_length;
@@ -1811,7 +1811,7 @@ FEHMenu::Menu::Menu(Button button[], int row_length, int col_length, char labels
     {
         for (nx=1; nx<=cols; nx++)
         {
-            button[i].SetName(labels[i]).SetStart(xs, ys).SetDimensions(w, h).SetColors(background_color, text_color);
+            &buttons[i].SetName(labels[i]).SetStart(xs, ys).SetDimensions(w, h).SetColors(border_color, text_color);
             i++;
             xs += w;
         }
@@ -1825,7 +1825,8 @@ FEHMenu::Menu::Menu(Button button[], int row_length, int col_length, char labels
 /* Function to draw the entire menu */
 void FEHMenu::Menu::Draw()
 {
-    for (int i = 0; i < rows * cols; i++)
+    int menu_length = rows * cols;
+    for (int i = 0; i < menu_length; i++)
     {
         buttons[i].Draw();
     }
