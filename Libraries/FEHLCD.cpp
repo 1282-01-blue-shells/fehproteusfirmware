@@ -1679,13 +1679,13 @@ void FEHLCD::SetRegisterColorValues()
 FEHMenu::Button::Button() {
     /* Initialize default button settings */
     strcpy(label, "FEH");
-    x_start = 0;
+    x_start = 1;
     y_start = 0;
     width = 100;
     height = 100;
-    line_color = 0xFFFFFFu;
-    txt_color = 0xFFFFFFu;
-    selected = false;
+    line_color = 0xFFFFFF;
+    txt_color = 0xFFFFFF;
+    selected = 0;
 }
 
 /* Chainable Button function to set label */
@@ -1698,6 +1698,8 @@ FEHMenu::Button& FEHMenu::Button::SetName(char name[20])
 /* Chainable Button function to set starting position */
 FEHMenu::Button& FEHMenu::Button::SetStart(int x, int y)
 {
+    if (x < 1) x = 1;
+    if (y < 0) y = 0;
     x_start = x;
     y_start = y;
     return *this;
@@ -1712,7 +1714,7 @@ FEHMenu::Button& FEHMenu::Button::SetDimensions(int w, int h)
 }
 
 /* Chainable Button function to set colors */
-FEHMenu::Button& FEHMenu::Button::SetColors(unsigned int border_color, unsigned int text_color)
+FEHMenu::Button& FEHMenu::Button::SetColors(int border_color, int text_color)
 {
     line_color = border_color;
     txt_color = text_color;
@@ -1722,17 +1724,23 @@ FEHMenu::Button& FEHMenu::Button::SetColors(unsigned int border_color, unsigned 
 /* Button function to draw it and write label */
 void FEHMenu::Button::Draw()
 {
+    if ((x_start + width) > 319) width = 319 - x_start;
+    if ((y_start + height) > 238) height = 319 - y_start;
+
+    LCD.SetFontColor(BLACK);
+    LCD.FillRectangle(x_start, y_start, width, height);
     LCD.SetFontColor(line_color);
     LCD.DrawRectangle(x_start, y_start, width, height);
     LCD.SetFontColor(txt_color);
     LCD.WriteAt(label,x_start+((width-(strlen(label)*12))/2),y_start+((height-17)/2)); // equation to center text inside the icon
-    if (selected) Select();
+
+    if (selected == 1) Select();
 }
 
 /* Icon function to make the icon selected and set */
 void FEHMenu::Button::Select()
 {
-    selected = true;
+    selected = 1;
     LCD.SetFontColor(line_color);
     for (int i = 1; i <= 3; i++) LCD.DrawRectangle(x_start + i, y_start + i, width - 2*i, height - 2*i);
 }
@@ -1740,25 +1748,25 @@ void FEHMenu::Button::Select()
 /* Button function to make the button deselected and not set */
 void FEHMenu::Button::Deselect()
 {
-    selected = false;
+    selected = 0;
     LCD.SetFontColor(BLACK);
     for (int i = 1; i <= 3; i++) LCD.DrawRectangle(x_start + i, y_start + i, width - 2*i, height - 2*i);
     Draw();
 }
 
 /* Button function to return the selection state */
-bool FEHMenu::Button::IsSelected()
+int FEHMenu::Button::IsSelected()
 {
     return selected;
 }
 
 /* Button function to see if coordinates lie within the boundaries of a button */
-bool FEHMenu::Button::Contains(float x, float y) {
+int FEHMenu::Button::Contains(float x, float y) {
     return x >= x_start && x <= x_start + width && y >= y_start && y <= y_start + height;
 }
 
 /* Button function to see if it has been pressed */
-bool FEHMenu::Button::IsPressed()
+int FEHMenu::Button::IsPressed()
 {
     float x = -1., y = -1.;
     LCD.Touch(&x, &y);
@@ -1774,44 +1782,43 @@ bool FEHMenu::Button::IsPressed()
 }
 
 /* Button function to wait while it is pressed with callback */
-void FEHMenu::Button::OnTouchUp(void (*callback)(), bool alternate)
+void FEHMenu::Button::OnTouchUp(void (*callback)(), int alternate)
 {
     if (IsPressed()) while(IsPressed());
     while (!IsPressed());
-    if (alternate) {
-        if (selected == true) Deselect(); else Select();
+    if (alternate == 1) {
+        if (selected == 1) Deselect(); else Select();
     }
     while (IsPressed());
     callback();
 }
 
 /* Button function to wait while it is pressed */
-void FEHMenu::Button::AwaitTouchUp(bool alternate)
+void FEHMenu::Button::AwaitTouchUp(int alternate)
 {
     if (IsPressed()) while(IsPressed());
     while (!IsPressed());
-    if (alternate) {
-        if (selected == true) Deselect(); else Select();
+    if (alternate == 1) {
+        if (selected == 1) Deselect(); else Select();
     }
     while (IsPressed());
 }
 
 /* Initializes an array of buttons of a given space and size, labels them, and draws them */
-FEHMenu::Menu::Menu(Button button[], int row_length, int col_length, char labels[][20], int top, int bottom, int left, int right, unsigned int border_color, unsigned int text_color)
+FEHMenu::Menu::Menu(Button * button, int row_length, int col_length, char labels[][20], int top, int bottom, int left, int right, int border_color, int text_color)
 {
-    *buttons = *button;
+    buttons = button;
     cols = col_length;
     rows = row_length;
     int xs = left, ys = top;
-    float total_w = (320. - left - right), total_h = (240. - top - bottom);
-    int w = total_w/cols, h = total_h/rows;
+    int w = (319 - left - right)/cols, h = (238 - top - bottom)/rows;
     int nx, ny, i = 0;
 
     for (ny=1; ny<=rows; ny++)
     {
         for (nx=1; nx<=cols; nx++)
         {
-            &buttons[i].SetName(labels[i]).SetStart(xs, ys).SetDimensions(w, h).SetColors(border_color, text_color);
+            buttons[i].SetName(labels[i]).SetStart(xs, ys).SetDimensions(w, h).SetColors(border_color, text_color);
             i++;
             xs += w;
         }
@@ -1833,7 +1840,7 @@ void FEHMenu::Menu::Draw()
 }
 
 /* Function to await a press for all buttons in the menu */
-int FEHMenu::Menu::AwaitPress(bool alternate)
+int FEHMenu::Menu::AwaitPress(int alternate)
 {
     float x1 = -1., y1 = -1., x2 = -1., y2 = -1.;
     int btn_count = rows * cols;
@@ -1844,7 +1851,12 @@ int FEHMenu::Menu::AwaitPress(bool alternate)
         LCD.Touch(&x2, &y2);
         for (int i = 0; i < btn_count; i++)
         {
-            if (buttons[i].Contains(x1, y1) && buttons[i].Contains(x2, y2)) return i;
+            if (buttons[i].Contains(x1, y1) && buttons[i].Contains(x2, y2)) {
+                if (alternate == 1) {
+                    if (buttons[i].IsSelected() == 1) buttons[i].Deselect(); else buttons[i].Select();
+                }
+                return i;
+            }
         }
     }
 }

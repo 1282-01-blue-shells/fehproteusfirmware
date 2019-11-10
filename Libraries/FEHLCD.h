@@ -154,31 +154,31 @@ namespace FEHMenu
         private:
             int x_start, y_start;
             int width, height;
-            unsigned int line_color;
-            unsigned int txt_color;
+            int line_color;
+            int txt_color;
             char label[200];
-            bool selected;
+            int selected;
         public:
             Button();
             FEHMenu::Button& SetName(char name[20]);
             FEHMenu::Button& SetStart(int start_x, int start_y);
             FEHMenu::Button& SetDimensions(int w, int h);
-            FEHMenu::Button& SetColors(unsigned int border_color, unsigned int text_color);
+            FEHMenu::Button& SetColors(int border_color, int text_color);
             void Draw();
             void Select();
             void Deselect();
-            bool IsSelected();
-            bool Contains(float x, float y);
-            bool IsPressed();
-            void AwaitTouchUp(bool alternate = false);
-            void OnTouchUp(void (*callback)(), bool alternate = false);
+            int IsSelected();
+            int Contains(float x, float y);
+            int IsPressed();
+            void AwaitTouchUp(int alternate = 0);
+            void OnTouchUp(void (*callback)(), int alternate = 0);
     };
 
     /* Class definition that stores menu information */
     class Menu
     {
         int rows, cols;
-        FEHMenu::Button buttons[];
+        FEHMenu::Button * buttons;
 
         public:
             /* Class must be initialized with:
@@ -187,8 +187,8 @@ namespace FEHMenu
              * - Button labels, from top left across each row to the bottom right
              * - (Optional) Top, bottom, left, and right margins from edges of screen,
              * - (Optional) Color for the rectangle and the text color */
-            Menu(Button button[], int row_length, int col_length, char labels[][20], int top = 0, int bottom = 0, int left = 0, int right = 0, unsigned int border_color = 0xFFFFFFu, unsigned int text_color = 0xFFFFFFu);
-            int AwaitPress(bool alternate = false);
+            Menu(Button * button, int row_length, int col_length, char labels[][20], int top = 0, int bottom = 0, int left = 0, int right = 0, int border_color = 0xFFFFFF, int text_color = 0xFFFFFF);
+            int AwaitPress(int alternate = 0);
             void Draw();
     };
 }
