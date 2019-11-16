@@ -377,21 +377,21 @@ void FEHRPS::InitializeMenu()
 
 void FEHRPS::InitializeTouchMenu()
 {
-	int cancel = 1;
+    int cancel = 1;
     int c=0, d=0, n;
     float x, y;
     char region;
 
-    FEHIcon::Icon regions_title[1];
+    FEHMenu::Button regions_title[1];
     char regions_title_label[1][20] = {"Select RPS Region"};
 
-    FEHIcon::Icon regions[8];
+    FEHMenu::Button regions[8];
     char regions_labels[8][20] = {"A", "B", "C", "D", "E", "F", "G", "H"};
 
-    FEHIcon::Icon confirm_title[1];
+    FEHMenu::Button confirm_title[1];
     char confirm_title_label[1][20] = {""};
 
-    FEHIcon::Icon confirm[2];
+    FEHMenu::Button confirm[2];
     char confirm_labels[2][20] = {"Ok", "Cancel"};
 
 	while(cancel) {
@@ -399,23 +399,20 @@ void FEHRPS::InitializeTouchMenu()
     d=0;
     LCD.Clear(BLACK);
 
-    FEHIcon::DrawIconArray(regions_title, 1, 1, 1, 201, 1, 1, regions_title_label, BLACK, WHITE);
-    FEHIcon::DrawIconArray(regions, 2, 4, 40, 1, 1, 1, regions_labels, WHITE, WHITE);
+    FEHMenu::Menu REGIONS_TITLE_Menu(regions_title, 1, 1, regions_title_label, 1, 201, 1, 1, BLACK, WHITE);
+    FEHMenu::Menu REGIONS_Menu(regions, 2, 4, regions_labels, 40, 1, 1, 1, WHITE, WHITE);
 
-	while (!c)
-	{
-        if (LCD.Touch(&x, &y))
+    while (!c)
+    {
+        for (n=0; n<=7; n++)
         {
-            for (n=0; n<=7; n++)
+            if (regions[n].IsPressed())
             {
-                if (regions[n].Pressed(x, y, 0))
-                {
-                    regions[n].WhilePressed(x, y);
-                    c = n+1;
-                }
+                regions[n].AwaitTouchUp();
+                c = n+1;
             }
         }
-	}
+    }
     switch (c)
     {
     case 1:
@@ -453,23 +450,20 @@ void FEHRPS::InitializeTouchMenu()
     }
 
     LCD.Clear(BLACK);
-    FEHIcon::DrawIconArray(confirm_title, 1, 1, 60, 201, 1, 1, confirm_title_label, BLACK, WHITE);
-    FEHIcon::DrawIconArray(confirm, 1, 2, 60, 60, 1, 1, confirm_labels, WHITE, WHITE);
+    FEHMenu::Menu CONFIRM_TITLE_Menu(confirm_title, 1, 1, confirm_title_label, 60, 201, 1, 1, BLACK, WHITE);
+    FEHMenu::Menu CONFIRM_Menu(confirm, 1, 2, confirm_labels, 60, 60, 1, 1, WHITE, WHITE);
 
-	while (!d)
-	{
-        if (LCD.Touch(&x, &y))
+    while (!d)
+    {
+        for (n=0; n<=1; n++)
         {
-            for (n=0; n<=1; n++)
+            if (confirm[n].IsPressed())
             {
-                if (confirm[n].Pressed(x, y, 0))
-                {
-                    confirm[n].WhilePressed(x, y);
-                    d = n+1;
-                }
+                confirm[n].AwaitTouchUp();
+                d = n+1;
             }
         }
-	}
+    }
     switch (d)
     {
     case 1:
