@@ -1828,7 +1828,6 @@ void FEHMenu::Button::OnTouchUp(void (*callback)(), int alternate)
 /* Button function to wait while it is pressed */
 void FEHMenu::Button::AwaitTouchUp(int alternate)
 {
-    if (IsPressed()) while(IsPressed());
     while (!IsPressed());
     if (alternate == 1) {
         if (selected == 1) Deselect(); else Select();
