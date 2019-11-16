@@ -1695,6 +1695,31 @@ FEHMenu::Button& FEHMenu::Button::SetName(char name[20])
     return *this;
 }
 
+/* Chainable Button function to set float label */
+FEHMenu::Button& FEHMenu::Button::SetName(float name)
+{
+    int d, r;
+    /* Convert float to string so it can be auto-centered in icon */
+    if (name >=0) {
+        d = (int) name;
+        r = (int) ((name-d)*1000);
+        std::sprintf(label, "%d.%03d", d, r);
+    } else {
+        name *= -1;
+        d = (int) name;
+        r = (int) ((name-d)*1000);
+        std::sprintf(label, "-%d.%03d", d, r);
+    }
+    return *this;
+}
+
+/* Chainable Button function to set integer label */
+FEHMenu::Button& FEHMenu::Button::SetName(int name)
+{
+    std::sprintf(label, "%d", name);
+    return *this;
+}
+
 /* Chainable Button function to set starting position */
 FEHMenu::Button& FEHMenu::Button::SetStart(int x, int y)
 {
