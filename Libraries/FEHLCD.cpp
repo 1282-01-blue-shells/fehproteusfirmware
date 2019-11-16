@@ -1713,6 +1713,13 @@ FEHMenu::Button& FEHMenu::Button::SetName(float name)
     return *this;
 }
 
+/* Chainable Button function to set float label */
+FEHMenu::Button& FEHMenu::Button::SetName(double name)
+{
+    float name_fl = (float)name;
+    return SetName(name_fl);
+}
+
 /* Chainable Button function to set integer label */
 FEHMenu::Button& FEHMenu::Button::SetName(int name)
 {

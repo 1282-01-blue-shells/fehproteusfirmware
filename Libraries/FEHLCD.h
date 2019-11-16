@@ -163,6 +163,7 @@ namespace FEHMenu
             FEHMenu::Button& SetName(char name[20]);
             FEHMenu::Button& SetName(int name);
             FEHMenu::Button& SetName(float name);
+            FEHMenu::Button& SetName(double name);
             FEHMenu::Button& SetStart(int start_x, int start_y);
             FEHMenu::Button& SetDimensions(int w, int h);
             FEHMenu::Button& SetColors(int border_color, int text_color);
