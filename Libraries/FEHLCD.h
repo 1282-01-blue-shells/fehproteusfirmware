@@ -190,6 +190,8 @@ namespace FEHMenu
              * - (Optional) Top, bottom, left, and right margins from edges of screen,
              * - (Optional) Color for the rectangle and the text color */
             Menu(Button * button, int row_length, int col_length, char labels[][20], int top = 0, int bottom = 0, int left = 0, int right = 0, int border_color = 0xFFFFFF, int text_color = 0xFFFFFF);
+            Menu();
+            void Initialize(Button * button, int row_length, int col_length, char labels[][20], int top = 0, int bottom = 0, int left = 0, int right = 0, int border_color = 0xFFFFFF, int text_color = 0xFFFFFF);
             int AwaitPress(int alternate = 0);
             void Draw();
             int Contains(float xc, float yc);

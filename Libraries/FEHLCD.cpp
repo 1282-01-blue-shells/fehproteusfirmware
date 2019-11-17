@@ -1826,6 +1826,13 @@ void FEHMenu::Button::AwaitTouchUp(int alternate)
 /* Initializes an array of buttons of a given space and size, labels them, and draws them */
 FEHMenu::Menu::Menu(Button * button, int row_length, int col_length, char labels[][20], int top, int bottom, int left, int right, int border_color, int text_color)
 {
+    Initialize(button, row_length, col_length, labels, top, bottom, left, right, border_color, text_color);
+}
+
+FEHMenu::Menu::Menu() {}
+
+void FEHMenu::Menu::Initialize(Button * button, int row_length, int col_length, char labels[][20], int top, int bottom, int left, int right, int border_color, int text_color)
+{
     buttons = button;
     cols = col_length;
     rows = row_length;
@@ -1910,7 +1917,7 @@ int FEHMenu::Menu::Contains(float xc, float yc)
     return -1;
 }
 
-void FEHMenu::CheckMenus(Menu * menus, int menu_count, int * menu_index, int * btn_index)
+void FEHMenu::AwaitMenus(Menu * menus, int menu_count, int * menu_index, int * btn_index)
 {
     float x1 = -1., y1 = -1., x2 = -1., y2 = -1.;
     int selection[2] = {-1, -1};
