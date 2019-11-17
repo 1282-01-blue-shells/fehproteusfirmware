@@ -196,7 +196,7 @@ namespace FEHMenu
             int IsPressed();
     };
 
-    void CheckMenus(Menu * menus, int menu_count, int * menu_index, int * btn_index);
+    void AwaitMenus(Menu * menus, int menu_count, int * menu_index, int * btn_index);
 }
 
 extern FEHLCD LCD;
