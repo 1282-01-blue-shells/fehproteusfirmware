@@ -1880,6 +1880,23 @@ int FEHMenu::Menu::AwaitPress(int alternate)
     }
 }
 
+int FEHMenu::Menu::IsPressed()
+{
+    float x1 = -1., y1 = -1., x2 = -1., y2 = -1.;
+    int btn_count = rows * cols;
+
+    LCD.Touch(&x1, &y1);
+    LCD.Touch(&x2, &y2);
+    for (int i = 0; i < btn_count; i++)
+    {
+        if (buttons[i].Contains(x1, y1) && buttons[i].Contains(x2, y2)) {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
 /* Function to check if a touch is within a menu */
 int FEHMenu::Menu::Contains(float xc, float yc)
 {

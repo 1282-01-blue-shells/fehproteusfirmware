@@ -193,6 +193,7 @@ namespace FEHMenu
             int AwaitPress(int alternate = 0);
             void Draw();
             int Contains(float xc, float yc);
+            int IsPressed();
     };
 
     void CheckMenus(Menu * menus, int menu_count, int * menu_index, int * btn_index);
