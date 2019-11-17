@@ -174,7 +174,6 @@ namespace FEHMenu
             int Contains(float x, float y);
             int IsPressed();
             void AwaitTouchUp(int alternate = 0);
-            void OnTouchUp(void (*callback)(), int alternate = 0);
     };
 
     /* Class definition that stores menu information */
@@ -193,7 +192,10 @@ namespace FEHMenu
             Menu(Button * button, int row_length, int col_length, char labels[][20], int top = 0, int bottom = 0, int left = 0, int right = 0, int border_color = 0xFFFFFF, int text_color = 0xFFFFFF);
             int AwaitPress(int alternate = 0);
             void Draw();
+            int Contains(float xc, float yc);
     };
+
+    void CheckMenus(Menu * menus, int menu_count, int * menu_index, int * btn_index);
 }
 
 extern FEHLCD LCD;

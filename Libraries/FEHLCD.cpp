@@ -1813,18 +1813,6 @@ int FEHMenu::Button::IsPressed()
     return false;
 }
 
-/* Button function to wait while it is pressed with callback */
-void FEHMenu::Button::OnTouchUp(void (*callback)(), int alternate)
-{
-    if (IsPressed()) while(IsPressed());
-    while (!IsPressed());
-    if (alternate == 1) {
-        if (selected == 1) Deselect(); else Select();
-    }
-    while (IsPressed());
-    callback();
-}
-
 /* Button function to wait while it is pressed */
 void FEHMenu::Button::AwaitTouchUp(int alternate)
 {
@@ -1887,6 +1875,39 @@ int FEHMenu::Menu::AwaitPress(int alternate)
                     if (buttons[i].IsSelected() == 1) buttons[i].Deselect(); else buttons[i].Select();
                 }
                 return i;
+            }
+        }
+    }
+}
+
+/* Function to check if a touch is within a menu */
+int FEHMenu::Menu::Contains(float xc, float yc)
+{
+    int btn_count = rows * cols;
+
+    for (int i = 0; i < btn_count; i++)
+    {
+        if (buttons[i].Contains(xc, yc)) return i;
+    }
+
+    return -1;
+}
+
+void FEHMenu::CheckMenus(Menu * menus, int menu_count, int * menu_index, int * btn_index)
+{
+    float x1 = -1., y1 = -1., x2 = -1., y2 = -1.;
+    int selection[2] = {-1, -1};
+
+    while (true) {
+        LCD.Touch(&x1, &y1);
+        LCD.Touch(&x2, &y2);
+        for (int i = 0; i < menu_count; i++)
+        {
+            int o = menus[i].Contains(x1, y1);
+            if (o != -1 && o == menus[i].Contains(x2, y2)) {
+                *menu_index = i;
+                *btn_index = o;
+                return;
             }
         }
     }
