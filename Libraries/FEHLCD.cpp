@@ -1931,6 +1931,7 @@ void FEHMenu::AwaitMenus(Menu * menus, int menu_count, int * menu_index, int * b
             if (o != -1 && o == menus[i].Contains(x2, y2)) {
                 *menu_index = i;
                 *btn_index = o;
+                while (LCD.Touch(&x1, &y1));
                 return;
             }
         }
