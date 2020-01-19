@@ -773,6 +773,72 @@ bool FEHLCD::Touch(float *x_pos, float *y_pos)
 
 }
 
+//Touch that uses int
+bool FEHLCD::Touch(int *x_pos, int *y_pos)
+{
+	uint8 dat;                                   //Temporary data holder
+	uint16 x, y;                                  //Read x and y values
+												  //For noise rejection
+
+	dat = SPI_ReadCommand(0x00);                  //Read the status
+
+	if (dat & 0x02)                              //Touch present?
+	{
+		SPI_CS_Assert();  //Command a conversion (x,y)
+		SPI_SendChar(0xE0);
+		Sleep(2);
+		SPI_CS_Deassert();
+		Sleep(1);
+		SPI_CS_Assert();               //Read the positions
+		SPI_SendChar(0xA5);
+		Sleep(1);
+		x = SPI_GetChar() << 8;
+		x |= SPI_GetChar();
+		y = SPI_GetChar() << 8;
+		y |= SPI_GetChar();
+		x >>= 4;
+		y >>= 4;
+		SPI_CS_Deassert();
+
+		if (lastx == -1 && lasty == -1)
+		{
+			lastx = x;
+			lasty = y;
+			y = 4095 - y;
+			*x_pos = (int)x*(320 / 4095.);
+			*y_pos = (int)y*(240 / 4095.);
+		}
+		else if (abs(lastx - x)<100 && abs(lasty - y)<100)
+		{
+			lastx = x;
+			lasty = y;
+			y = 4095 - y;
+			*x_pos = (int)x*(320 / 4095.);
+			*y_pos = (int)y*(240 / 4095.);
+		}
+		else
+		{
+			*x_pos = -1;
+			*y_pos = -1;
+			lastx = -1;
+			lasty = -1;
+			return false;
+		}
+		return true;
+	}
+	else
+	{
+		*x_pos = -1;
+		*y_pos = -1;
+		lastx = -1;
+		lasty = -1;
+		return false;
+	}
+
+
+
+}
+
 int FEHLCD::abs(int no)
 {
     if(no<0)
