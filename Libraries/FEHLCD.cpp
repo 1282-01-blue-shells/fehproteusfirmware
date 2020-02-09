@@ -772,6 +772,16 @@ bool FEHLCD::Touch(float *x_pos, float *y_pos)
 
 }
 
+bool FEHLCD::Touch(int *x_pos, int *y_pos)
+{
+	float new_x_pos = *x_pos;
+	float new_y_pos = *y_pos;
+	bool return_value = LCD.Touch(&new_x_pos, &new_y_pos);
+	*x_pos = ((int) new_x_pos);
+	*y_pos = ((int) new_y_pos);
+	return return_value;
+}
+
 int FEHLCD::abs(int no)
 {
     if(no<0)
