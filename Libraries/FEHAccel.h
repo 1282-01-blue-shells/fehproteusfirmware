@@ -46,5 +46,8 @@ public:
 	bool IsEnabled();
 };
 
+/**
+ * @brief Global access to the FEHAccel class.
+ */
 extern FEHAccel Accel;
 #endif // FEHACCEL_H
