@@ -3,7 +3,7 @@ Hello, World! {#hello_world}
 
 Introduction {#hello_world_intro}
 ===
-As is tradition when learning a new programming language or envrionment, the first thing to do is create a [Hello, World!](https://en.wikipedia.org/wiki/%22Hello,_World!%22_program)program.  This tutorial will explain how to do that on the Proteus. 
+As is tradition when learning a new programming language or envrionment, the first thing to do is create a [Hello, World!](https://en.wikipedia.org/wiki/%22Hello,_World!%22_program) program.  This tutorial will explain how to do that on the Proteus. 
 
 This tutorial requires an installation of VSCode, properly configured with the FEHVSCode extension.  More information can be found [here](http://www.example.com).
 
