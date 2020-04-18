@@ -175,9 +175,9 @@ public:
     /**
      * @brief Returns the state of the DigitalOutputPin 
      * 
-     * @return int (Documentation says this is a boolean?)
+     * @return bool 
      */
-    int Status();
+    bool Status();
 
     /**
      * @brief Switches the output state of the DigitalOutputPin to the opposite truth value 
