@@ -12,7 +12,8 @@ public:
 
     /**
      * @brief Enumeration of all 88 frequencies on a piano
-     * 
+     *
+     * Enumeration of all 88 frequencies on a piano <br/>
      * Letter = note <br/>
      * 's' = sharp <br/>
      * 'f' = flat <br/>
@@ -235,11 +236,17 @@ public:
      * Beeps for a user specified amount of time (in seconds) at a a user specfied frequency
      * 
      * @param stdnote Frequency from stdnote enumeration
-     * @param int Amount of time (seconds)
+     * @param double Amount of time (seconds)
      */
     void Tone(stdnote, double);
 
-    void Off();//turn off buzzer
+    /**
+     * @brief Turns off buzzer
+     * 
+     * Turns off buzzer
+     * 
+     */
+    void Off();
 
     /**
      * @brief Construct a new FEHBuzzer object
