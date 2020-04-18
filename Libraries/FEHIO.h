@@ -5,7 +5,12 @@
 #include "MK60DZ10.h"
 #include "adc16.h"
 
-
+/**
+ * @brief Objects to be used with the 32 Flex I/O Pins on the FEH Proteus. 
+ * 
+ * P3_6 and P3_7 cannot be used for digital encoders. <br/>
+ * 
+ */
 class FEHIO
 {
 public:
@@ -69,11 +74,21 @@ extern void PORTE_IRQHandler();
 
 extern void PIT0_IRQHandler();
 
+/**
+ * @brief Configure any of 32 Flex I/O pints as a digital input
+ * 
+ */
 // Begin Class Declarations for Pin Types
 class DigitalInputPin
 {
 public:
     DigitalInputPin( FEHIO::FEHIOPin pin );
+    /**
+     * @brief Returns the value of the DigitalInputPin
+     * 
+     * @return true if nothing is connected to a digital input
+     * @return false 
+     */
     bool Value();
 
     friend class ButtonBoard;
@@ -85,12 +100,26 @@ private:
     void Initialize( FEHIO::FEHIOPin pin );
 };
 
+/**
+ * @brief Monitor a digital encoder using a digital input pin on the Proteus 
+ * P3_6 and P3_7 cannot be used for digital encoders as they are hard-wired to other Proteus functions. 
+ */
 class DigitalEncoder
 {
 public:
     DigitalEncoder( FEHIO::FEHIOPin pin, FEHIO::FEHIOInterruptTrigger trigger );
     DigitalEncoder( FEHIO::FEHIOPin pin);
+    /**
+     * @brief Return the current counts for DigitalEncoder object
+     * 
+     * @return int 
+     */
     int Counts();
+
+    /**
+     * @brief Reset counts for DigitalEncoder object to 0
+     * 
+     */
     void ResetCounts();
 
 private:
@@ -100,6 +129,10 @@ private:
     void Initialize( FEHIO::FEHIOPin pin, FEHIO::FEHIOInterruptTrigger trigger );
 };
 
+/**
+ * @brief Configure any of 32 Flex I/O pints as a analog input
+ * 
+ */
 class AnalogInputPin
 {
 protected:
@@ -109,35 +142,104 @@ protected:
 
 public:
     AnalogInputPin( FEHIO::FEHIOPin );
+    /**
+     * @brief Returns the value of the AnalogInputPin
+     * 
+     * @return float 
+     */
     float Value();
 
 
     static void InitADCs();
 };
 
+/**
+ * @brief Configure any of 32 Flex I/O pints as a digital output, such as LEDs
+ * 
+ */
 class DigitalOutputPin
 {
 private:
     FEHIO::FEHIOPin pin;
 public:
     DigitalOutputPin( FEHIO::FEHIOPin );
+
+    /**
+     *
+     * @brief Set the state of the DigitalOutputPin, such as turning an LED on or off
+     * @param true 
+     * @param false
+     */
     void Write( bool );
+
+    /**
+     * @brief Returns the state of the DigitalOutputPin 
+     * 
+     * @return int (Documentation says this is a boolean?)
+     */
     int Status();
+
+    /**
+     * @brief Switches the output state of the DigitalOutputPin to the opposite truth value 
+     * 
+     */
     void Toggle();
 };
 
+/**
+ * @brief Set of functions that return whether each of the three buttons (left, middle, and right) of the Proteus ButtonBoard are Pressed or Released <br/>
+ * 
+ */
 class ButtonBoard
 {
 public:
     ButtonBoard( FEHIO::FEHIOPort bank );
-
+    /**
+     * @brief 
+     * 
+     * @return true 
+     * @return false 
+     */
     bool LeftPressed();
+
+    /**
+     * @brief 
+     * 
+     * @return true 
+     * @return false 
+     */
     bool LeftReleased();
 
+    /**
+     * @brief 
+     * 
+     * @return true 
+     * @return false 
+     */
     bool MiddlePressed();
+
+    /**
+     * @brief 
+     * 
+     * @return true 
+     * @return false 
+     */
     bool MiddleReleased();
 
+    /**
+     * @brief 
+     * 
+     * @return true 
+     * @return false 
+     */
     bool RightPressed();
+
+    /**
+     * @brief 
+     * 
+     * @return true 
+     * @return false 
+     */
     bool RightReleased();
 
 private:
@@ -146,6 +248,10 @@ private:
     DigitalInputPin _right;
 };
 
+/**
+ * @brief Monitor an analog encoder using a analog input pin on the Proteus 
+ * 
+ */
 class AnalogEncoder : public AnalogInputPin
 {
 private:
@@ -156,7 +262,7 @@ private:
     } EncoderState;
 
     static void SetCounterInit(unsigned int);
-
+    
     int counts;
     int lowThreshold;
     int highThreshold;
@@ -191,8 +297,29 @@ public:
     static void SetRate(unsigned int rateHz);
     AnalogEncoder(FEHIO::FEHIOPin);
     ~AnalogEncoder();
+    
+    /**
+     * @brief Return the current counts for AnalogEncoder object
+     * 
+     * @return int 
+     */
     int Counts();
+
+    /**
+     * @brief  Reset counts for AnalogEncoder object to 0
+     * 
+     * 
+     */
     void ResetCounts();
+
+    /**
+     * @brief Define the high and low thresholds for an AnalogEncoder object
+     * 
+     * Provide tolerance between the actual low and high values and their respective low and high thresholds
+     * 
+     * @param low 
+     * @param high 
+     */
     void SetThresholds(float low, float high);
 
 };
