@@ -5,9 +5,10 @@ class FEHFile
 {
 	public:
 		FIL wrapper;
-		static int fileIdNum;
+		static int prevFileId;
+		int fileIdNum;
 		FEHFile() {
-			fileIdNum++;
+			fileIdNum = ++prevFileId;
 		}
 }; 
 #endif
