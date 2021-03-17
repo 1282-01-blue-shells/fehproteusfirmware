@@ -195,10 +195,10 @@ class ButtonBoard
 public:
     ButtonBoard( FEHIO::FEHIOPort bank );
     /**
-     * @brief 
+     * @brief returns whether the left button of the Proteus ButtonBoard is pressed.
      * 
-     * @return true 
-     * @return false 
+     * @return true if the left button is pressed.
+     * @return false if the left button is not pressed.
      */
     bool LeftPressed();
 
