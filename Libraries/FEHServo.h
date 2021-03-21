@@ -42,14 +42,16 @@ public:
      * @param servoport Servo port number used to power servo
      */
     FEHServo( FEHServoPort servoport);
+
     /**
-     * @brief Turn servo motor to specific angle
+     * @brief Turn servo motor to specific angle  
      * 
      * Servo angle must be greater than 0 and less than 180.
      * 
      * @param percent Angle to turn servo to
      */
     void SetDegree( float degree);
+
     /**
      * @brief Determine minimum and maximum values for your servo motor
      * 
@@ -57,6 +59,7 @@ public:
      * 
      */
     void TouchCalibrate();
+
     /**
      * @brief Turn off a servo
      * 
@@ -65,6 +68,7 @@ public:
      * 
      */
     void Off();
+
     /**
      * @brief Set the maximum value for the servo motor
      * 
@@ -74,6 +78,7 @@ public:
      * @param max Maximum compensation value
      */
     void SetMax( int max);
+
     /**
      * @brief Set the minimum value for the servo motor
      * 
@@ -88,6 +93,7 @@ public:
     void Calibrate(); //Deprecated because uses button board
     void DigitalOn();
     void DigitalOff();
+    
 private:
     FEHServoPort servo_port;
     unsigned short servo_min;

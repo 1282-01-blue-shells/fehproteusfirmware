@@ -21,7 +21,7 @@ public:
 	 * 
 	 */
 	void InitializeTouchMenu();
-	// return the current course number { 1, 2, 3 }
+
 	/**
 	 * @brief Get course number corresponding to current region
 	 * 
@@ -30,15 +30,17 @@ public:
 	 * @return unsigned char 1 (regions A-D), 2 (regions E-H)
 	 */
 	unsigned char CurrentCourse();
-	// returns the letter of the current region { A, B, C, D, E, F, G, H, I, J, K, L }
+	
 	/**
 	 * @brief Get current region's corresponding letter
 	 * 
-	 * Get current region's corresponding letter
+	 * Get current region's corresponding letter from 
+	 * set { A, B, C, D, E, F, G, H, I, J, K, L }
 	 * 
 	 * @return char Region letter RPS was initialized to
 	 */
 	char CurrentRegionLetter();
+
 	/**
 	 * @brief Get time remaining for a match
 	 * 
@@ -47,6 +49,7 @@ public:
 	 * @return int Number of seconds remaining
 	 */
 	int Time();
+	
 	/**
 	 * @brief Get current X position of QR code on course
 	 * 
@@ -55,6 +58,7 @@ public:
 	 * @return float X coordinate (inches)
 	 */
 	float X();
+
 	/**
 	 * @brief Get current Y position of QR code on course
 	 * 
@@ -63,6 +67,7 @@ public:
 	 * @return float Y coordinate (inches)
 	 */
 	float Y();
+	
 	/**
 	 * @brief Get current heading angle of QR code
 	 * 

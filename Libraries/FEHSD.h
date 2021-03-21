@@ -33,6 +33,7 @@ public:
      * @return FEHFile* Opened file pointer
      */
     FEHFile *FOpen(const char* str, const char* mode);
+
     /**
      * @brief Close an opened file
      * 
@@ -42,6 +43,7 @@ public:
      * @return int 0 if successful
      */
     int FClose(FEHFile *fptr);
+
     /**
      * @brief Close all opened files
      * 
@@ -50,6 +52,7 @@ public:
      * @return int 0 if successful
      */
     int FCloseAll();
+
     /**
      * @brief Print to a file
      * 
@@ -73,6 +76,7 @@ public:
      */
     int FPrintf(FEHFile *fptr,const char* format,
     		/* Pointer to the format string */ ...);
+
     /**
      * @brief Scan data from a file
      * 
@@ -91,6 +95,7 @@ public:
      * @return int Number of items successfully read
      */
     int FScanf(FEHFile *fptr, const char* format, ...);
+    
     /**
      * @brief Check for end of file
      * 
