@@ -3,7 +3,7 @@
 
 /**
  * @brief Access to the Proteus buzzer
- * 
+ *
  * Allows the Proteus to create sound
  */
 class FEHBuzzer
@@ -18,7 +18,7 @@ public:
      * 's' = sharp <br/>
      * 'f' = flat <br/>
      * Number = octave
-     * 
+     *
      */
     typedef enum
     {
@@ -150,61 +150,61 @@ public:
 
     /**
      * @brief Beeps for 500 miliseconds at a frequency of 1000 Hz
-     * 
+     *
      * Beeps for 500 miliseconds at a frequency of 1000 Hz
-     * 
+     *
      */
     void Beep();
 
     /**
      * @brief Beeps infinitely at a frequency of 1000 Hz
-     * 
+     *
      * Beeps infinitely at a frequency of 1000 Hz
-     * 
+     *
      */
     void Buzz();
 
     /**
      * @brief Beeps for a user specified amount of time (in seconds) at a frequency of 1000 Hz
-     * 
+     *
      * Beeps for a user specified amount of time (in seconds) at a frequency of 1000 Hz
-     * 
+     *
      * @param double Amount of time (seconds)
      */
     void Buzz(double);
 
     /**
      * @brief Beeps for a user specified amount of time (in milliseconds) at a frequency of 1000 Hz
-     * 
+     *
      * Beeps for a user specified amount of time (in milliseconds) at a frequency of 1000 Hz
-     * 
+     *
      * @param int Amount of time (milliseconds)
      */
     void Buzz(int);
 
     /**
      * @brief Beeps infinitely at a user specfied frequency
-     * 
+     *
      * Beeps infinitely at a user specfied frequency
-     * 
+     *
      * @param int Frequency
      */
     void Tone(int);
 
     /**
      * @brief Beeps infinitely at a user specfied frequency
-     * 
+     *
      * Beeps infinitely at a user specfied frequency
-     * 
-     * @param stdnote Frequency from stdnote enumeration 
+     *
+     * @param stdnote Frequency from stdnote enumeration
      */
     void Tone(stdnote);
 
     /**
      * @brief Beeps for a user specified amount of time (in milliseconds) at a a user specfied frequency
-     * 
+     *
      * Beeps for a user specified amount of time (in milliseconds) at a a user specfied frequency
-     * 
+     *
      * @param int Frequency
      * @param int Amount of time (milliseconds)
      */
@@ -212,9 +212,9 @@ public:
 
     /**
      * @brief Beeps for a user specified amount of time (in seconds) at a a user specfied frequency
-     * 
+     *
      * Beeps for a user specified amount of time (in seconds) at a a user specfied frequency
-     * 
+     *
      * @param int Frequency
      * @param double Amount of time (seconds)
      */
@@ -222,9 +222,9 @@ public:
 
     /**
      * @brief Beeps for a user specified amount of time (in milliseconds) at a a user specfied frequency
-     * 
+     *
      * Beeps for a user specified amount of time (in milliseconds) at a a user specfied frequency
-     * 
+     *
      * @param stdnote Frequency from stdnote enumeration
      * @param int Amount of time (milliseconds)
      */
@@ -232,9 +232,9 @@ public:
 
     /**
      * @brief Beeps for a user specified amount of time (in seconds) at a a user specfied frequency
-     * 
+     *
      * Beeps for a user specified amount of time (in seconds) at a a user specfied frequency
-     * 
+     *
      * @param stdnote Frequency from stdnote enumeration
      * @param double Amount of time (seconds)
      */
@@ -242,17 +242,17 @@ public:
 
     /**
      * @brief Turns off buzzer
-     * 
+     *
      * Turns off buzzer
-     * 
+     *
      */
     void Off();
 
     /**
      * @brief Construct a new FEHBuzzer object
-     * 
+     *
      * Contains enumeration of all 88 frequencies on a piano
-     * 
+     *
      */
     FEHBuzzer();
 
