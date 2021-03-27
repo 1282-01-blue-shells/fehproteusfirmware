@@ -144,7 +144,7 @@ public:
      * @brief Sets LCD background color
      * 
      * @param color
-     *      Color of background to be set
+     *      Color of the background to be set
      * 
      * Note: This comment applies to all public member variations of
      * {@code} SetBackgroundColor()

@@ -4,15 +4,17 @@
 #include "derivative.h"
 
 /**
-* @brief Access to the motor attatchments for the Proteus
-*
-* Allows user to interact with individual motor speed and direction
-*/
+ * @brief Access to the Proteus motor ports
+ * 
+ */
 class FEHMotor
 {
 public:
-
-    // Create motor states for all separate motors
+    /**
+     * @brief Motor port values to be used when declaring an FEHMotor
+     * 
+     * Motor port values to be used when declaring an FEHMotor
+     */
     typedef enum
     {
         Motor0 = 0,
@@ -20,37 +22,37 @@ public:
         Motor2,
         Motor3
     } FEHMotorPort;
-
+    
     /**
-     * @brief Declares an addition of a new motor attatchment to the Proteus
+     * @brief Declare a new FEHMotor object
      * 
-     * @param motorport
-     *      The motor port that a new motor has been attatched to
+     * Reccommended max voltages for provided DC motors:<br/>
+     * - Acroname = 12.0<br/>
+     * - Hacked Futaba = 5.0<br/>
+     * - Hacked FITEC = 5.0<br/>
+     * - Igwan = 9.0<br/>
+     * - Vex Motor = 7.2<br/>
+     * - GMH-34 = 7.2
      * 
-     * @param max_voltage
-     *      Max voltage for corresponding motor
-     * 
-     * Initializes motor port and max voltage to nothing greater than 12V.
-     * Also calculates {@code _max_percent} as a linear relationship
+     * @param motorport Motor port number used to power motor
+     * @param max_voltage Maximum voltage allows to power motor
      */
     FEHMotor( FEHMotorPort motorport, float max_voltage );
 
     /**
-     * @brief Stops motion of motor
+     * @brief Stop powering a motor
      * 
-     * Sets {@code _power} to 0 if it is not already at 0
+     * Stop powering a motor.<br/>
+     * Note: This is the same as using SetPercent(0), so it will not apply physical brake force to the motor. Momentum may still affect your movement.
+     * 
      */
     void Stop();
-
     /**
-     * @brief Sets motor speed to a percentage of its maximum speed
+     * @brief Set motor percent for your motor
      * 
-     * @param percent
-     *      The percentage of the motor maximum speed utilized for
-     *      motion
+     * Motor percent must be greater than -100 and less than 100.
      * 
-     * Sets power of motor based on {@param percent} and calls private
-     * member {@code SetPower} to process the specified percentage
+     * @param percent Percent speed to power motor at
      */
 	void SetPercent( float percent );
 
