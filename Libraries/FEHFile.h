@@ -11,9 +11,10 @@ class FEHFile
 	public:
 		// TODO make wrapper, fileIdNum, and constructor protected!
 		FIL wrapper;
-		static int fileIdNum;
+		static int prevFileId;
+		int fileIdNum;
 		FEHFile() {
-			fileIdNum++;
+			fileIdNum = ++prevFileId;
 		}
 }; 
 #endif
