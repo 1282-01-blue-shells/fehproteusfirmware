@@ -9,3 +9,6 @@
 
 # Ignore Mac junk
 .DS_Store
+
+# Ignore VS Code workspaces
+*.code-workspace
