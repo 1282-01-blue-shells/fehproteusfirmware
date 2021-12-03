@@ -17,7 +17,7 @@ int _region;
 float _RPS_x;
 float _RPS_y;
 float _RPS_heading;
-long _RPS_objective;
+char _RPS_objective;
 unsigned char _RPS_time;
 bool _RPS_stop;
 bool _RPS_foundpacket;
@@ -592,16 +592,37 @@ float FEHRPS::Heading()
 	return _RPS_heading;
 }
 
+float fourBytesToFloat(uchar *b)
+{
+    uchar byte_array[] = { *(b + 3), *(b + 2), *(b + 1), *b};
+    float result;
+    std::copy(reinterpret_cast<const char*>(&byte_array[0]),
+              reinterpret_cast<const char*>(&byte_array[4]),
+              reinterpret_cast<char*>(&result));
+    return result;
+}
+
+
+int fourBytesToInt(uchar *b)
+{
+    //TODO: Little endian or big endian?
+    int result = 0;
+    for (int n = 4; n >= 0; n--)
+        result = (result << 8) + b[n];
+
+    return result;
+}
+
 void RPSDataProcess( unsigned char *data, unsigned char length )
 {
-	if( _enabled )
+    if( _enabled )
 	{
-        _RPS_x = (float)( (int)( ( ( (unsigned int)data[ 1 ] ) << 8 ) + (unsigned int)data[ 2 ] ) ) / 10.0f - 1600.0f;
-        _RPS_y = (float)( (int)( ( ( (unsigned int)data[ 3 ] ) << 8 ) + (unsigned int)data[ 4 ] ) ) / 10.0f - 1600.0f;
-        _RPS_heading = (float)( (int)( ( ( (unsigned int)data[ 5 ] ) << 8 ) + (unsigned int)data[ 6 ] ) ) / 10.0f - 1600.0f;
-		_RPS_objective = (((unsigned int)(data[ 7 ]) << 24) | ((unsigned int)(data[ 8 ]) << 16) | ((unsigned int)(data[ 9 ]) << 8) | (data[10]));
-        _RPS_time = data[ 11 ];
-        _RPS_stop = (data[12] == STOPDATA);
+        _RPS_x = fourBytesToFloat(data);
+        _RPS_y = fourBytesToFloat(data + 4);
+        _RPS_heading = fourBytesToFloat(data + 8);
+		_RPS_objective = data[12];
+        _RPS_time = fourBytesToInt(data + 13)
+        _RPS_stop = (data[17] == STOPDATA);
         _RPS_foundpacket = true;
 
         if(_RPS_stop)
@@ -611,6 +632,6 @@ void RPSDataProcess( unsigned char *data, unsigned char length )
 			GPIOD_PDOR &= ~GPIO_PDOR_PDO( GPIO_PIN( 13 ) );
 		}
 	}
-
-
 }
+
+
