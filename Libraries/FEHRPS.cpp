@@ -11,7 +11,7 @@ FEHRPS RPS;
 #define STOPDATA 0xAA
 #define REGION_COUNT 4
 
-void RPSDataProcess( unsigned char *data, unsigned char length );
+void RPSDataProcess( volatile unsigned char *data, unsigned char length );
 
 bool _enabled;
 int _region;
@@ -223,7 +223,7 @@ void FEHRPS::Initialize( int region )
             LCD.Write( rxbuffer[ i ] );
         }
         LCD.WriteLine( " " );
-        
+
          // set my destination (high)
         LCD.Write( "Set channel 26 2480MHz" );
         txbuffer[ 0 ] = 'A';
@@ -595,7 +595,7 @@ float FEHRPS::Heading()
 	return _RPS_heading;
 }
 
-void RPSDataProcess( unsigned char *data, unsigned char length )
+void RPSDataProcess( volatile unsigned char *data, unsigned char length )
 {
 	if( _enabled )
 	{
